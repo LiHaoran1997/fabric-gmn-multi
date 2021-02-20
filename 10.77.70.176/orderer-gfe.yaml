@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+
+  gfe.orderer.com:
+    container_name: gfe.orderer.com
+    extends:
+      file: base.yaml
+      service: orderer-base
+    ports:
+      - 7050:7050
+    volumes:
+        - ./channel:/etc/hyperledger/configtx
+        - ./channel/crypto-config/ordererOrganizations/orderer.com/orderers/gfe.orderer.com/:/etc/hyperledger/crypto/orderer
+        - ./channel/crypto-config/peerOrganizations/fabric.gfe.com/peers/peer0.fabric.gfe.com/:/etc/hyperledger/crypto/gfe
+        - ./channel/crypto-config/peerOrganizations/fabric.deke.com/peers/peer0.fabric.deke.com/:/etc/hyperledger/crypto/deke
+        - ./channel/crypto-config/peerOrganizations/fabric.dbiir.com/peers/peer0.fabric.dbiir.com/:/etc/hyperledger/crypto/dbiir
+        - ./channel/crypto-config/peerOrganizations/fabric.ruc.com/peers/peer0.fabric.ruc.com/:/etc/hyperledger/crypto/ruc
+    extra_hosts:
+      - kafka0:10.77.70.177
+      - kafka1:10.77.70.178
+      - kafka2:10.77.70.179
+      - kafka3:10.77.70.180
