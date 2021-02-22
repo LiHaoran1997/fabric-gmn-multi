@@ -1,28 +1,28 @@
 version: '2'
 services:
 
-  couchdb2:
+  couchdb0:
     extends:
       file: base.yaml
       service: couchdb-base
-    container_name: couchdb2
+    container_name: couchdb0
     # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
     # for example map it to utilize Fauxton User Interface in dev environments.
     ports:
-      - "5984:5984"
+      - "5984:5984"  # this is the restful API addr, can also access fauxton web ui thru http://localhost:5984/_utils/
 
 
-  peer2.fabric.gfe.com:
-    container_name: peer2.fabric.gfe.com
+  peer0.fabric.gfe.com:
+    container_name: peer0.fabric.gfe.com
     extends:
       file:   base.yaml
       service: peer-base-nacos
     environment:
-      - CORE_PEER_ID=peer2.fabric.gfe.com
+      - CORE_PEER_ID=peer0.fabric.gfe.com
       - CORE_PEER_LOCALMSPID=GfeMSP
-      - CORE_PEER_ADDRESS=peer2.fabric.gfe.com:7051
+      - CORE_PEER_ADDRESS=peer0.fabric.gfe.com:7051
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb2:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0:5984
       - CORE_PEER_MSP_KEYSTORE=/etc/hyperledger/crypto/admin/msp/keystore/bfcf0c59d4ccec10f52bdaea0eddfc7246a3964c368058453eaea813e27f3f28_sk
       - CORE_PEER_MSP_ADMINCERTS=/etc/hyperledger/crypto/admin/msp/signcerts/Admin@fabric.gfe.com-cert.pem
       - FABRIC_ORDERER_NAME=gfe.orderer.com
@@ -32,7 +32,7 @@ services:
       - DB_USER=root
       - DB_PASSWORD=1234qwer
       - FABRIC_USERNAME=admin_cc_gfe
-      - NACOS_ADDRESS=10.77.70.176
+      - NACOS_ADDRESS=10.77.70.174
       - NACOS_PORT=8848
     ports:
       - 7051:7051
@@ -43,11 +43,10 @@ services:
         - ./conf:/nacos/distribution/target/nacos-server-1.2.0-SNAPSHOT/nacos/conf
         - ./channel/crypto-config/peerOrganizations/fabric.gfe.com/users/Admin@fabric.gfe.com/:/etc/hyperledger/crypto/admin
         - ./channel/crypto-config/ordererOrganizations/orderer.com/orderers/gfe.orderer.com/:/etc/hyperledger/crypto/orderer        
-        - ./channel/crypto-config/peerOrganizations/fabric.gfe.com/peers/peer2.fabric.gfe.com/:/etc/hyperledger/crypto/peer
-
-      depends_on:
-        - couchdb2
-      extra_hosts:  # 声明域名和IP的对应关系
+        - ./channel/crypto-config/peerOrganizations/fabric.gfe.com/peers/peer0.fabric.gfe.com/:/etc/hyperledger/crypto/peer
+    depends_on:
+        - couchdb0
+    extra_hosts:  # 声明域名和IP的对应关系
         - gfe.orderer.com:10.77.70.176
         
   

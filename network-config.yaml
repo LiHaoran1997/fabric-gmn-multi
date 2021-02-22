@@ -461,7 +461,7 @@ certificateAuthorities:
     caName: ca-deke
 
   ca-dbiir:
-    url: https://10.77.70.182:7054
+    url: https://10.77.70.183:7054
     httpOptions:
       verify: false
     tlsCACerts:
@@ -473,7 +473,7 @@ certificateAuthorities:
     caName: ca-dbiir
 
   ca-ruc:
-    url: https://10.77.70.182:8054
+    url: https://10.77.70.183:8054
     httpOptions:
       verify: false
     tlsCACerts:

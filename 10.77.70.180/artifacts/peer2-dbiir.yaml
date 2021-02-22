@@ -51,9 +51,9 @@ services:
         - ./channel/crypto-config/peerOrganizations/fabric.gfe.com/peers/peer0.fabric.gfe.com/:/etc/hyperledger/crypto/register/peer
         - ./channel/crypto-config/peerOrganizations/fabric.gfe.com/users/User1@fabric.gfe.com/:/etc/hyperledger/crypto/user1
         - ./channel/crypto-config/ordererOrganizations/orderer.com/orderers/gfe.orderer.com/:/etc/hyperledger/crypto/register/orderer  
-      depends_on:
+    depends_on:
         - couchdb8
-      extra_hosts:  # 声明域名和IP的对应关系
+    extra_hosts:  # 声明域名和IP的对应关系
         - dbiir.orderer.com:10.77.70.174
         - gfe.orderer.com:10.77.70.176
         

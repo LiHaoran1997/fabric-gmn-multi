@@ -1,29 +1,28 @@
 version: '2'
 services:
 
-  couchdb4:
+  couchdb5:
     extends:
       file: base.yaml
       service: couchdb-base
-    container_name: couchdb4
+    container_name: couchdb5
     # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
     # for example map it to utilize Fauxton User Interface in dev environments.
     ports:
-      - "6984:5984"  # this is the restful API addr, can also access fauxton web ui thru http://localhost:5984/_utils/
+      - "5984:5984"
 
 
-
-  peer1.fabric.deke.com:
-    container_name: peer1.fabric.deke.com
+  peer2.fabric.deke.com:
+    container_name: peer2.fabric.deke.com
     extends:
       file:   base.yaml
       service: peer-base-gmn
     environment:
-      - CORE_PEER_ID=peer1.fabric.deke.com
+      - CORE_PEER_ID=peer2.fabric.deke.com
       - CORE_PEER_LOCALMSPID=DekeMSP
-      - CORE_PEER_ADDRESS=peer1.fabric.deke.com:7051
+      - CORE_PEER_ADDRESS=peer2.fabric.deke.com:7051
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb5:5984
       - CORE_PEER_MSP_KEYSTORE=/etc/hyperledger/crypto/admin/msp/keystore/09f5b23dded6e6774bfc0f99ba05ac1e0798edecf5732c2466f3331d81f7a4d1_sk
       - CORE_PEER_MSP_ADMINCERTS=/etc/hyperledger/crypto/admin/msp/signcerts/Admin@fabric.deke.com-cert.pem
       - FABRIC_ORDERER_NAME=deke.orderer.com
@@ -43,20 +42,21 @@ services:
       - NACOS_ORDERER_TLS_PATH=/etc/hyperledger/crypto/register/orderer/tls/ca.crt
       - FABRIC_NACOS_USERNAME=admin_cc_gfe
     ports:
-      - 7056:7051
-      - 7058:7053
+      - 7051:7051
+      - 7053:7053
       - 8999:8999
     volumes:
         - ./channel/crypto-config/peerOrganizations/fabric.deke.com/users/Admin@fabric.deke.com/:/etc/hyperledger/crypto/admin
         - ./channel/crypto-config/ordererOrganizations/orderer.com/orderers/deke.orderer.com/:/etc/hyperledger/crypto/orderer   
-        - ./channel/crypto-config/peerOrganizations/fabric.deke.com/peers/peer1.fabric.deke.com/:/etc/hyperledger/crypto/peer
+        - ./channel/crypto-config/peerOrganizations/fabric.deke.com/peers/peer2.fabric.deke.com/:/etc/hyperledger/crypto/peer
         - ./channel/crypto-config/peerOrganizations/fabric.gfe.com/peers/peer0.fabric.gfe.com/:/etc/hyperledger/crypto/register/peer
         - ./channel/crypto-config/peerOrganizations/fabric.gfe.com/users/User1@fabric.gfe.com/:/etc/hyperledger/crypto/user1
-        - ./channel/crypto-config/ordererOrganizations/orderer.com/orderers/gfe.orderer.com/:/etc/hyperledger/crypto/register/orderer   
+        - ./channel/crypto-config/ordererOrganizations/orderer.com/orderers/gfe.orderer.com/:/etc/hyperledger/crypto/register/orderer  
     depends_on:
-      - couchdb4
-      extra_hosts:  # 声明域名和IP的对应关系
-        - gfe.orderer.com:10.77.70.176
+      - couchdb5
+    extra_hosts:  # 声明域名和IP的对应关系
         - deke.orderer.com:10.77.70.175
+        - gfe.orderer.com:10.77.70.176
+        
   
 

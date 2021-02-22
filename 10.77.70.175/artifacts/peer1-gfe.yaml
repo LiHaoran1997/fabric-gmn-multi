@@ -45,7 +45,7 @@ services:
         - ./channel/crypto-config/peerOrganizations/fabric.gfe.com/peers/peer1.fabric.gfe.com/:/etc/hyperledger/crypto/peer
     depends_on:
       - couchdb1
-      extra_hosts:  # 声明域名和IP的对应关系
+    extra_hosts:  # 声明域名和IP的对应关系
         - gfe.orderer.com:10.77.70.176
         
   

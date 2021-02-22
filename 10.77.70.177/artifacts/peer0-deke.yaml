@@ -47,7 +47,7 @@ services:
         - ./channel/crypto-config/peerOrganizations/fabric.deke.com/peers/peer0.fabric.deke.com/:/etc/hyperledger/crypto/peer
     depends_on:
       - couchdb3
-      extra_hosts:  # 声明域名和IP的对应关系
+    extra_hosts:  # 声明域名和IP的对应关系
         - deke.orderer.com:10.77.70.175
         
   
